@@ -1,8 +1,8 @@
 FROM debian:jessie
 
-RUN perl -pi -e 's/deb.debian.org/ftp.jp.debian.org/g' /etc/apt/sources.list
+#RUN perl -pi -e 's/deb.debian.org/ftp.jp.debian.org/g' /etc/apt/sources.list
 RUN apt-get update
-RUN apt-get -y install aptitude locales emacs24-nox python curl git byobu autoconf file g++ gcc libc-dev make pkg-config re2c ca-certificates libedit2 libsqlite3-0 libxml2 xz-utils libicu52 unzip libcurl4-openssl-dev libedit-dev libsqlite3-dev libssl-dev libxml2-dev libicu-dev bzip2 supervisor sudo openjdk-7-jdk bison libjpeg-dev libpng-dev libxpm-dev libgif-dev libmcrypt-dev libreadline-dev libtidy-dev libxslt-dev libbz2-dev
+RUN apt-get -y install aptitude locales emacs24-nox python curl git byobu autoconf file g++ gcc libc-dev make pkg-config re2c ca-certificates libedit2 libsqlite3-0 libxml2 xz-utils libicu52 unzip libcurl4-openssl-dev libedit-dev libsqlite3-dev libssl-dev libxml2-dev libicu-dev bzip2 supervisor sudo openjdk-7-jdk bison libjpeg-dev libpng-dev libxpm-dev libgif-dev libmcrypt-dev libreadline-dev libtidy-dev libxslt-dev libbz2-dev openssh-server
 
 EXPOSE 22
 
@@ -66,5 +66,8 @@ RUN . /etc/profile ; /usr/local/phpenv/bin/phpenv global 7.1.2
 RUN chown -R docker:docker /usr/local/rbenv
 RUN chown -R docker:docker /usr/local/pyenv
 RUN chown -R docker:docker /usr/local/phpenv
+
+ADD supervisord.conf /etc/supervisor/supervisord.conf
+ADD sshd.conf /etc/supervisor/conf.d/sshd.conf
 
 CMD ["/usr/bin/supervisord"]
