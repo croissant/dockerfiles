@@ -7,46 +7,70 @@ services:
 
   emacs:
     build: emacs
+    hostname: dev-emacs
     volumes_from:
       - vol1
     volumes:
       - ~/work:/work
+      - ~/.ssh:/home/docker/.ssh
     security_opt:
       - seccomp:unconfined
     networks:
       mynet:
         ipv4_address: 172.25.0.11
 
-  ruby:
+  ruby01:
     build: ruby
+    hostname: ruby01
     volumes_from:
       - vol1
     volumes:
       - ~/work:/work
-    links:
-      - mysql
+      - ~/.ssh:/home/docker/.ssh
     networks:
       mynet:
         ipv4_address: 172.25.0.21
 
-  stage:
+  stage01:
     build: ruby
+    hostname: stage01
     volumes_from:
       - vol1
     volumes:
       - ~/work:/work
-    links:
-      - mysql
+      - ~/.ssh:/home/docker/.ssh
     networks:
       mynet:
         ipv4_address: 172.25.0.51
+
+  python01:
+    build: python
+    hostname: python01
+    volumes_from:
+      - vol1
+    volumes:
+      - ~/work:/work
+      - ~/.ssh:/home/docker/.ssh
+    networks:
+      mynet:
+        ipv4_address: 172.25.0.61
+
+  php01:
+    build: php
+    hostname: php01
+    volumes_from:
+      - vol1
+    volumes:
+      - ~/work:/work
+      - ~/.ssh:/home/docker/.ssh
+    networks:
+      mynet:
+        ipv4_address: 172.25.0.71
 
   mysql:
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: 'root'
-    ports:
-      - '13306:3306'
     volumes_from:
       - vol1
     networks:
